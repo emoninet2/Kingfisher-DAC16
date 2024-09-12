@@ -1,0 +1,165 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "84428f79-48f3-4df1-bcb7-de6293731eb2")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 170.18 83.82)
+		(size 50.8 21.59)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "3967ea8f-3475-400c-b535-183b98fe81ca")
+		(property "Sheetname" "DAC Module"
+			(at 170.18 83.1084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "dac_module.kicad_sch"
+			(at 170.18 105.9946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Kingfisher"
+				(path "/84428f79-48f3-4df1-bcb7-de6293731eb2"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 115.57 55.88)
+		(size 50.8 21.59)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "4d7e4cc8-7578-45e3-93ad-015beb42a6e5")
+		(property "Sheetname" "Power"
+			(at 115.57 55.1684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 115.57 78.0546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Kingfisher"
+				(path "/84428f79-48f3-4df1-bcb7-de6293731eb2"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 115.57 83.82)
+		(size 50.8 21.59)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "905e0069-b44e-4218-aa85-ef37d884aa0b")
+		(property "Sheetname" "MCU"
+			(at 115.57 83.1084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu.kicad_sch"
+			(at 115.57 105.9946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Kingfisher"
+				(path "/84428f79-48f3-4df1-bcb7-de6293731eb2"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 60.96 83.82)
+		(size 50.8 21.59)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "edcc2b07-e777-44c8-9724-ebdcbfdd3e30")
+		(property "Sheetname" "Connectors"
+			(at 60.96 83.1084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "connectors.kicad_sch"
+			(at 60.96 105.9946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Kingfisher"
+				(path "/84428f79-48f3-4df1-bcb7-de6293731eb2"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)

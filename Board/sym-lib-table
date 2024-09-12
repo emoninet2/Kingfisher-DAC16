@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "DAC81416RHAT")(type "KiCad")(uri "${KIPRJMOD}/LIbrary/symbols/DAC81416RHAT.kicad_sym")(options "")(descr ""))
+  (lib (name "FTSH-105-01-F-DV-K-P-TR")(type "KiCad")(uri "${KIPRJMOD}/LIbrary/symbols/FTSH-105-01-F-DV-K-P-TR.kicad_sym")(options "")(descr ""))
+)
