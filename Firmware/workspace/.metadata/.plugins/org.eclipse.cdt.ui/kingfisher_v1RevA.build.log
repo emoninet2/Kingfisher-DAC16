@@ -1,0 +1,21 @@
+16:56:50 **** Incremental Build of configuration Debug for project kingfisher_v1RevA ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:141:21: warning: variable 'x' set but not used [-Wunused-but-set-variable]
+  141 |   volatile uint16_t x;
+      |                     ^
+arm-none-eabi-gcc -o "kingfisher_v1RevA.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/habiburrahman/Documents/Projects/Kingfisher/Firmware/workspace/kingfisher_v1RevA/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher_v1RevA.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher_v1RevA.elf
+ 
+arm-none-eabi-size  kingfisher_v1RevA.elf 
+arm-none-eabi-objdump -h -S kingfisher_v1RevA.elf  > "kingfisher_v1RevA.list"
+   text	   data	    bss	    dec	    hex	filename
+  38732	    268	   8948	  47948	   bb4c	kingfisher_v1RevA.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher_v1RevA.list
+ 
+
+16:56:51 Build Finished. 0 errors, 1 warnings. (took 1s.150ms)
+

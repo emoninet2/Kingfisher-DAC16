@@ -1,0 +1,5 @@
+../Core/Src/DACx1416.c:19:6:DACx1416_SPI_transmit	16	static
+../Core/Src/DACx1416.c:35:6:DACx1416_SPI_receive	16	static
+../Core/Src/DACx1416.c:48:6:DACx1416_SPI_transmitReceive	32	static
+../Core/Src/DACx1416.c:63:6:DACx1416_write_register	24	static
+../Core/Src/DACx1416.c:71:10:DACx1416_read_register	24	static
