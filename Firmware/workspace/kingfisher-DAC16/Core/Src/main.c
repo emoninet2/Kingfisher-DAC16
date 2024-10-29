@@ -60,21 +60,7 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void SPI1_TransmitReceive(uint8_t *txBuffer, uint8_t *rxBuffer, uint16_t size)
-{
-    // Pull CS low to start the transmission
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // Set CS low (adjust GPIO pin as needed)
 
-    // Full-duplex transmission and reception (blocking mode)
-    if (HAL_SPI_TransmitReceive(&hspi1, txBuffer, rxBuffer, size, HAL_MAX_DELAY) != HAL_OK)
-    {
-        // Communication error
-        Error_Handler();
-    }
-
-    // Pull CS high to end the transmission
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // Set CS high (adjust GPIO pin as needed)
-}
 /* USER CODE END 0 */
 
 /**
@@ -108,7 +94,7 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_USART1_UART_Init();
-  MX_USB_DEVICE_Init();
+  //MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
 
@@ -139,44 +125,66 @@ int main(void)
 
 
   volatile uint16_t x;
-  x = DACx1416_read_register(3);
-  x = DACx1416_read_register(5);
-  x = DACx1416_read_register(4);
-  x = DACx1416_read_register(3);
-  x = DACx1416_read_register(2);
-  x = DACx1416_read_register(1);
+  x = DACx1416_read_register_old(3);
+  x = DACx1416_read_register_old(5);
+  x = DACx1416_read_register_old(4);
+  x = DACx1416_read_register_old(3);
+  x = DACx1416_read_register_old(2);
+  x = DACx1416_read_register_old(1);
 
 
-  x = DACx1416_read_register(3);
-  //DACx1416_write_register(2, 0b0000111010100100);
-  x = DACx1416_read_register(3);
-
-  DACx1416_write_register(0x03, 0b0000101010000100);
-  x = DACx1416_read_register(0x3);
-  DACx1416_write_register(0x9, 0x0000 );
-  x = DACx1416_read_register(0x9);
-
-  DACx1416_write_register(0xD, 0b00000000);
-
-  DACx1416_write_register(0x10, 0);
-  DACx1416_write_register(0x10, 1023); //0.078125
-  DACx1416_write_register(0x10, 2047); //0.15625
-  DACx1416_write_register(0x10, 4095); //0.3125
-  DACx1416_write_register(0x10, 8191); //0.625
-  DACx1416_write_register(0x10, 16383); //1.25
-  DACx1416_write_register(0x10, 32767); //2.5
+  x = DACx1416_read_register_old(0x03);
+  DACx1416_write_register_old(0x03, 0b0000101010000100);
+  x = DACx1416_read_register_old(0x03);
 
 
-  DACx1416_write_register(0x10, 36000); // 2.7466V
-  DACx1416_write_register(0x10, 40000); // 3.0528V
-  DACx1416_write_register(0x10, 44000); // 3.3591V
-  DACx1416_write_register(0x10, 48000); // 3.6654V
-  DACx1416_write_register(0x10, 50000); // 3.8185V
-  DACx1416_write_register(0x10, 52000); // 3.9715V
-  DACx1416_write_register(0x10, 56000); // 4.2778V
-  DACx1416_write_register(0x10, 60000); // 4.5841V   --> 4.37V
-  DACx1416_write_register(0x10, 64000); // 4.8904V --> 4.497V
-  DACx1416_write_register(0x10, 65535); //5V --> 3.5V
+  DACx1416_write_register_old(0xD, 0b0000);
+
+  x = DACx1416_read_register_old(0x09);
+  DACx1416_write_register_old(0x09, 0x0FFFE );
+  x = DACx1416_read_register_old(0x09);
+
+
+
+  DACx1416_write_register_old(0x10, 0);
+  DACx1416_write_register_old(0x10, 1023); //0.078125
+  DACx1416_write_register_old(0x10, 2047); //0.15625
+  DACx1416_write_register_old(0x10, 4095); //0.3125
+  DACx1416_write_register_old(0x10, 8191); //0.625
+  DACx1416_write_register_old(0x10, 16383); //1.25
+  DACx1416_write_register_old(0x10, 32767); //2.5
+
+
+  DACx1416_write_register_old(0x10, 36000); // 2.7466V
+  DACx1416_write_register_old(0x10, 40000); // 3.0528V
+  DACx1416_write_register_old(0x10, 44000); // 3.3591V
+  DACx1416_write_register_old(0x10, 48000); // 3.6654V
+  DACx1416_write_register_old(0x10, 50000); // 3.8185V
+  DACx1416_write_register_old(0x10, 52000); // 3.9715V
+  DACx1416_write_register_old(0x10, 56000); // 4.2778V
+  DACx1416_write_register_old(0x10, 60000); // 4.5841V   --> 4.37V
+  DACx1416_write_register_old(0x10, 64000); // 4.8904V --> 4.497V
+  DACx1416_write_register_old(0x10, 65535); //5V --> 3.5V
+
+
+
+  DACx1416_HandleTypeDef dac;
+  dac.SPI_transmit = DACx1416_SPI_transmit;
+  dac.SPI_receive = DACx1416_SPI_receive;
+  dac.SPI_transmitReceive = DACx1416_SPI_transmitReceive;
+  dac.nCS = DACx1416_nCS;
+  dac.nLDAC = DACx1416_nLDAC;
+  dac.nRESET = DACx1416_nRESET;
+  dac.nCLR = DACx1416_nCLR;
+  dac.TGL = DACx1416_tgl;
+
+
+  volatile DACx1416_deviceID_t devID =  DACx1416_get_device_id(dac);
+  volatile DACx1416_spiconfig_t spiConfig = DACx1416_get_spiConfig( dac);
+  asm("nop");
+  asm("nop");
+  asm("nop");
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -333,33 +341,33 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(DAC_nCS_GPIO_Port, DAC_nCS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_5
-                          |GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, DAC_TOGGLE0_Pin|DAC_TOGGLE1_Pin|DAC_TOGGLE2_Pin|DAC_nLDAC_Pin
+                          |DAC_nRESET_Pin|DAC_nCLR_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PA4 */
-  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  /*Configure GPIO pin : DAC_nCS_Pin */
+  GPIO_InitStruct.Pin = DAC_nCS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(DAC_nCS_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB0 PB1 PB2 PB5
-                           PB6 PB7 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_5
-                          |GPIO_PIN_6|GPIO_PIN_7;
+  /*Configure GPIO pins : DAC_TOGGLE0_Pin DAC_TOGGLE1_Pin DAC_TOGGLE2_Pin DAC_nLDAC_Pin
+                           DAC_nRESET_Pin DAC_nCLR_Pin */
+  GPIO_InitStruct.Pin = DAC_TOGGLE0_Pin|DAC_TOGGLE1_Pin|DAC_TOGGLE2_Pin|DAC_nLDAC_Pin
+                          |DAC_nRESET_Pin|DAC_nCLR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PB8 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  /*Configure GPIO pin : DAC_nALMOUT_Pin */
+  GPIO_InitStruct.Pin = DAC_nALMOUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(DAC_nALMOUT_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

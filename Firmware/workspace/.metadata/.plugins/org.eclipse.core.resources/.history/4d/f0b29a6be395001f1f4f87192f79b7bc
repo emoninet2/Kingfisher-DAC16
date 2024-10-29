@@ -1,0 +1,281 @@
+/*
+ * DACx1416.c
+ *
+ *  Created on: Oct 18, 2024
+ *      Author: habiburrahman
+ */
+#include "main.h"
+#include "DACx1416.h"
+
+
+
+
+extern SPI_HandleTypeDef hspi1;
+
+void DACx1416_nCS(bool value){
+	if(value){
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // Set CS high
+	}
+	else{
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // Set CS low
+	}
+}
+
+
+void SPI1_TransmitReceive(uint8_t *txBuffer, uint8_t *rxBuffer, uint16_t size)
+{
+    // Pull CS low to start the transmission
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // Set CS low (adjust GPIO pin as needed)
+
+    // Full-duplex transmission and reception (blocking mode)
+    if (HAL_SPI_TransmitReceive(&hspi1, txBuffer, rxBuffer, size, HAL_MAX_DELAY) != HAL_OK)
+    {
+        // Communication error
+        Error_Handler();
+    }
+
+    // Pull CS high to end the transmission
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // Set CS high (adjust GPIO pin as needed)
+}
+
+
+void DACx1416_SPI_transmit(uint8_t *txBuffer,uint16_t size){
+
+
+
+	// Full-duplex transmission and reception (blocking mode)
+	if (HAL_SPI_Transmit(&hspi1, txBuffer, size, HAL_MAX_DELAY) != HAL_OK)
+	{
+		// Communication error
+		Error_Handler();
+	}
+
+
+
+}
+
+
+void DACx1416_SPI_receive(uint8_t *rxBuffer,uint16_t size){
+
+
+	// Full-duplex transmission and reception (blocking mode)
+	if (HAL_SPI_Receive(&hspi1, rxBuffer, size, HAL_MAX_DELAY) != HAL_OK)
+	{
+		// Communication error
+		Error_Handler();
+	}
+
+}
+
+
+
+
+
+void DACx1416_SPI_transmitReceive(uint8_t *txBuffer, uint8_t *rxBuffer, uint16_t size){
+
+
+    // Full-duplex transmission and reception (blocking mode)
+    if (HAL_SPI_TransmitReceive(&hspi1, txBuffer, rxBuffer, size, HAL_MAX_DELAY) != HAL_OK)
+    {
+        // Communication error
+        Error_Handler();
+    }
+
+}
+
+
+
+void DACx1416_write_register_old(uint8_t address, uint16_t data){
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // Set CS low (adjust GPIO pin as needed)
+	uint8_t txBuffer[3] = {address & ~(1<<7) , (data >> 8) & 0xFF, data & 0xFF};
+	uint8_t rxBuffer[3];
+	SPI1_TransmitReceive(txBuffer, rxBuffer,  3);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // Set CS high (adjust GPIO pin as needed)
+}
+
+uint16_t DACx1416_read_register_old(uint8_t address){
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // Set CS low (adjust GPIO pin as needed)
+	uint8_t txBuffer[3] = {address | (1<<7) , 0xFF, 0xFF};
+	uint8_t rxBuffer[3];
+	DACx1416_SPI_transmit(txBuffer, 3);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // Set CS high (adjust GPIO pin as needed)
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // Set CS low (adjust GPIO pin as needed)
+	DACx1416_SPI_receive(rxBuffer, 3);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // Set CS high (adjust GPIO pin as needed)
+
+	return rxBuffer[1]<<8 | rxBuffer[2];
+
+}
+
+
+
+
+void DACx1416_write_register(DACx1416_HandleTypeDef dac, DACx1416_register_t reg, uint16_t data){
+	uint8_t txBuffer[3] = {reg & ~(1<<7) , (data >> 8) & 0xFF, data & 0xFF};
+	uint8_t rxBuffer[3];
+	dac.nCS(0);
+	dac.SPI_transmitReceive(txBuffer, rxBuffer, 3);
+	dac.nCS(1);
+
+}
+uint16_t DACx1416_read_register(DACx1416_HandleTypeDef dac, DACx1416_register_t reg){
+	uint8_t txBuffer[3] = {reg | (1<<7) , 0xFF, 0xFF};
+	uint8_t rxBuffer[3];
+	dac.nCS(0);
+	dac.SPI_transmitReceive(txBuffer, rxBuffer, 3);
+	dac.nCS(1);
+	dac.nCS(0);
+	dac.SPI_receive(rxBuffer, 3);
+	dac.nCS(1);
+	return rxBuffer[1]<<8 | rxBuffer[2];
+}
+
+
+DACx1416_deviceID_t DACx1416_get_device_id(DACx1416_HandleTypeDef dac){
+	DACx1416_deviceID_t deviceID;
+	uint16_t deviceIdVal = DACx1416_read_register(dac,DACx1416_REG_DEVICEID);
+	deviceID.deviceId = (deviceIdVal>>2) & 0x3FFF;
+	deviceID.versionId = deviceIdVal & 0x0003;
+	return deviceID;
+}
+
+DACx1416_status_t DACx1416_get_status(DACx1416_HandleTypeDef dac){
+	DACx1416_status_t status;
+	uint16_t statusRegVal = DACx1416_read_register(dac, DACx1416_REG_STATUS);
+
+	status.crc_alarm = (statusRegVal>>2) & 0x01;
+	status.dac_busy = (statusRegVal>>1) & 0x01;
+	status.temp_alarm = statusRegVal & 0x01;
+
+	return status;
+}
+
+
+
+DACx1416_spiconfig_t DACx1416_get_spiConfig(DACx1416_HandleTypeDef dac){
+	DACx1416_spiconfig_t spiConfig;
+	uint16_t regVal = DACx1416_read_register(dac, DACx1416_REG_SPICONFIG);
+
+	spiConfig.tempalm_en = (regVal >> 11) & 0x01;
+	spiConfig.dacbusy_en = (regVal >> 10) & 0x01;
+	spiConfig.crcalm_en = (regVal >> 9) & 0x01;
+	spiConfig.softtoggle_en = (regVal >> 6) & 0x01;
+	spiConfig.dev_pwdwn = (regVal >> 5) & 0x01;
+	spiConfig.crc_en = (regVal >> 4) & 0x01;
+	spiConfig.str_en = (regVal >> 3) & 0x01;
+	spiConfig.sdo_en = (regVal >> 2) & 0x01;
+	spiConfig.fsdo = (regVal >> 1) & 0x01;
+
+
+	return spiConfig;
+}
+void DACx1416_set_spiConfig(DACx1416_HandleTypeDef dac, DACx1416_spiconfig_t spiConfig){
+
+	uint16_t regVal = (spiConfig.tempalm_en<<11) | (spiConfig.dacbusy_en<<10) | (spiConfig.crcalm_en<<9)  |
+			(spiConfig.softtoggle_en<<6)  | (spiConfig.dev_pwdwn<<5)  | (spiConfig.crc_en<<4)  |
+			(spiConfig.str_en<<3)  | (spiConfig.sdo_en<<2)  | (spiConfig.fsdo<<1)  ;
+
+	DACx1416_write_register(dac, DACx1416_REG_SPICONFIG, regVal);
+
+}
+
+
+DACx1416_genconfig_t DACx1416_get_genConfig(DACx1416_HandleTypeDef dac){
+	DACx1416_genconfig_t genConfig;
+	uint16_t regVal = DACx1416_read_register(dac, DACx1416_REG_GENCONFIG);
+
+
+	genConfig.ref_pwdwn = (regVal >>14) & 0x01;
+	genConfig.DAC_14_15_diff_en = (regVal >>7) & 0x01;
+	genConfig.DAC_12_13_diff_en = (regVal >>6) & 0x01;
+	genConfig.DAC_10_11_diff_en = (regVal >>5) & 0x01;
+	genConfig.DAC_8_9_diff_en = (regVal >>4) & 0x01;
+	genConfig.DAC_6_7_diff_en = (regVal >>3) & 0x01;
+	genConfig.DAC_4_5_diff_en = (regVal >>2) & 0x01;
+	genConfig.DAC_2_3_diff_en = (regVal >>1) & 0x01;
+	genConfig.DAC_0_1_diff_en = (regVal >>0) & 0x01;
+
+	return genConfig;
+
+}
+void DACx1416_set_genConfig(DACx1416_HandleTypeDef dac, DACx1416_genconfig_t genConfig){
+
+	uint16_t regVal = (genConfig.ref_pwdwn<<14) | (genConfig.DAC_14_15_diff_en<<7) | (genConfig.DAC_12_13_diff_en<<6) |
+			(genConfig.DAC_10_11_diff_en<<5) |(genConfig.DAC_8_9_diff_en<<4) |(genConfig.DAC_6_7_diff_en<<3) |
+			(genConfig.DAC_4_5_diff_en<<2) |(genConfig.DAC_2_3_diff_en<<1) |(genConfig.DAC_0_1_diff_en<<0) ;
+	DACx1416_write_register(dac, DACx1416_REG_GENCONFIG, regVal);
+
+}
+
+
+DACx1416_brdConfig_t DACx1416_get_brdConfig(DACx1416_HandleTypeDef dac){
+	DACx1416_brdConfig_t brdConfig;
+	uint16_t regVal = DACx1416_read_register(dac, DACx1416_REG_BRDCONFIG);
+
+	for (int i=0;i<16;i++){
+		brdConfig.brdcast_en[i] = (regVal>>i) & 0x01;
+	}
+
+	return brdConfig;
+
+
+}
+void DACx1416_set_brdConfig(DACx1416_HandleTypeDef dac, DACx1416_brdConfig_t brdConfig){
+
+	uint16_t regVal;
+
+	for (int i=0;i<16;i++){
+		regVal |= (brdConfig.brdcast_en[i]<<i);
+	}
+
+	DACx1416_write_register(dac, DACx1416_REG_BRDCONFIG, regVal);
+
+}
+
+
+
+
+DACx1416_syncConfig_t DACx1416_get_syncConfig(DACx1416_HandleTypeDef dac){
+	DACx1416_syncConfig_t syncConfig;
+	uint16_t regVal = DACx1416_read_register(dac, DACx1416_REG_SYNCCONFIG);
+
+	for (int i=0;i<16;i++){
+		syncConfig.sync_en[i] = (regVal>>i) & 0x01;
+	}
+
+	return syncConfig;
+
+
+
+}
+void DACx1416_set_syncConfig(DACx1416_HandleTypeDef dac, DACx1416_syncConfig_t syncConfig){
+	uint16_t regVal;
+
+	for (int i=0;i<16;i++){
+		regVal |= (syncConfig.sync_en[i]<<i);
+	}
+
+	DACx1416_write_register(dac, DACx1416_REG_SYNCCONFIG, regVal);
+}
+
+
+
+DACx1416_toggConfig DACx1416_get_toggConfig(DACx1416_HandleTypeDef dac){
+	DACx1416_toggConfig toggConfig;
+	uint16_t regVal0 = DACx1416_read_register(dac, DACx1416_REG_TOGGCONFIG0);
+	uint16_t regVal1 = DACx1416_read_register(dac, DACx1416_REG_TOGGCONFIG1);
+
+	for (int i=15;i>=0;i-=2){
+		syncConfig.sync_en[i] = (regVal0>>i-1) & 0x03;
+	}
+
+
+
+}
+void DACx1416_set_toggConfig(DACx1416_HandleTypeDef dac, DACx1416_toggConfig toggConfig){
+
+}
+
+
+

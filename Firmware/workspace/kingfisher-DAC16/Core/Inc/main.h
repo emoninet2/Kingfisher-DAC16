@@ -57,6 +57,22 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define DAC_nCS_Pin GPIO_PIN_4
+#define DAC_nCS_GPIO_Port GPIOA
+#define DAC_TOGGLE0_Pin GPIO_PIN_0
+#define DAC_TOGGLE0_GPIO_Port GPIOB
+#define DAC_TOGGLE1_Pin GPIO_PIN_1
+#define DAC_TOGGLE1_GPIO_Port GPIOB
+#define DAC_TOGGLE2_Pin GPIO_PIN_2
+#define DAC_TOGGLE2_GPIO_Port GPIOB
+#define DAC_nLDAC_Pin GPIO_PIN_5
+#define DAC_nLDAC_GPIO_Port GPIOB
+#define DAC_nRESET_Pin GPIO_PIN_6
+#define DAC_nRESET_GPIO_Port GPIOB
+#define DAC_nCLR_Pin GPIO_PIN_7
+#define DAC_nCLR_GPIO_Port GPIOB
+#define DAC_nALMOUT_Pin GPIO_PIN_8
+#define DAC_nALMOUT_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

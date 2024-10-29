@@ -1,3 +1,6 @@
 1730139769281	Delete resource 'kingfisher_v1RevA'
 1730139922023	Rename resource 'kingfisher_v1RevA'
 1730140008229	Delete resource 'kingfisher-DAC16'
+1730140180922	Delete 2 resources
+1730154976119	Delete resource 'kingfisher-DAC16/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc 2.c'
+1730154984198	Delete resource 'kingfisher-DAC16/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc 2.h'
