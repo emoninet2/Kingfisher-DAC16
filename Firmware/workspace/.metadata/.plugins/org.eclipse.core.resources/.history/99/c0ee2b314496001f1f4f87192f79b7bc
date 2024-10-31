@@ -1,0 +1,70 @@
+/*
+ * cmdParser.c
+ *
+ *  Created on: Oct 29, 2024
+ *      Author: habiburrahman
+ */
+
+#include "main.h"
+#include "cmdParser.h"
+#include "DACx1416.h"
+#include "usb_device.h"
+#include "usbd_cdc_if.h"
+
+extern DACx1416_HandleTypeDef dac;
+
+
+void parseExtendedCmd(uint8_t *data, uint32_t len){
+
+}
+
+
+
+
+void parseCmd(uint8_t *data, uint32_t len) {
+
+	uint8_t cmd = (data[0]>>6) & 0x03;
+
+	switch(cmd){
+	case 0b00: {//read register
+		uint8_t address = data[0] & 0x3F;
+		uint16_t regVal = DACx1416_read_register(&dac,address);
+		uint8_t response[2];
+		response[0] = regVal >> 8;
+		response[1] = regVal & 0xFF;
+		if (CDC_Transmit_FS(response, 2) != USBD_OK) {
+					Error_Handler();
+		}
+		break;
+	}
+	case 0b01: { //write register
+
+		uint8_t address = data[0] & 0x3F;
+		uint16_t value = data[1]<<8 | data[2];
+		DACx1416_write_register(&dac, address, value);
+
+
+
+		break;
+	}
+	case 0b10: { //stream write register
+
+
+		break;
+	}
+
+	case 0b11: { //parse extended commands
+		parseExtendedCmd(data,  len);
+		break;
+	}
+	default:
+		// Handle unexpected commands, if necessary
+		break;
+	}
+
+
+}
+
+
+
+

@@ -8,10 +8,8 @@
 #ifndef INC_DACX1416_H_
 #define INC_DACX1416_H_
 
+#include "main.h"
 #include <stdbool.h>
-
-
-
 
 
 typedef enum{
@@ -172,14 +170,14 @@ typedef enum{
 
 
 typedef struct{
-	uint8_t dac_14_15;
-	uint8_t dac_12_13;
-	uint8_t dac_10_11;
-	uint8_t dac_8_9;
-	uint8_t dac_6_7;
-	uint8_t dac_4_5;
-	uint8_t dac_2_3;
-	uint8_t dac_0_1;
+	int8_t dac_14_15;
+	int8_t dac_12_13;
+	int8_t dac_10_11;
+	int8_t dac_8_9;
+	int8_t dac_6_7;
+	int8_t dac_4_5;
+	int8_t dac_2_3;
+	int8_t dac_0_1;
 }DACx1416_diff_offset;
 
 
@@ -213,30 +211,28 @@ uint16_t DACx1416_read_register_old(uint8_t address);
 
 
 
-
-
-void DACx1416_write_register(DACx1416_HandleTypeDef dac, DACx1416_register_t reg, uint16_t data);
-uint16_t DACx1416_read_register(DACx1416_HandleTypeDef dac, DACx1416_register_t reg);
-DACx1416_deviceID_t DACx1416_get_device_id(DACx1416_HandleTypeDef dac);
-DACx1416_status_t DACx1416_get_status(DACx1416_HandleTypeDef dac);
-DACx1416_spiconfig_t DACx1416_get_spiConfig(DACx1416_HandleTypeDef dac);
-void DACx1416_set_spiConfig(DACx1416_HandleTypeDef dac, DACx1416_spiconfig_t spiConfig);
-DACx1416_genconfig_t DACx1416_get_genConfig(DACx1416_HandleTypeDef dac);
-void DACx1416_set_genConfig(DACx1416_HandleTypeDef dac, DACx1416_genconfig_t genConfig);
-DACx1416_brdConfig DACx1416_get_brdConfig(DACx1416_HandleTypeDef dac);
-void DACx1416_set_brdConfig(DACx1416_HandleTypeDef dac, DACx1416_brdConfig brdConfig);
-DACx1416_syncConfig DACx1416_get_syncConfig(DACx1416_HandleTypeDef dac);
-void DACx1416_set_syncConfig(DACx1416_HandleTypeDef dac, DACx1416_syncConfig syncConfig);
-DACx1416_toggConfig DACx1416_get_toggConfig(DACx1416_HandleTypeDef dac);
-void DACx1416_set_toggConfig(DACx1416_HandleTypeDef dac, DACx1416_toggConfig toggConfig);
-DACx1416_dacPwdwn DACx1416_get_pwdwn(DACx1416_HandleTypeDef dac);
-void DACx1416_set_pwdwn(DACx1416_HandleTypeDef dac, DACx1416_dacPwdwn dacPwdwn);
-DACx1416_dacRange DACx1416_get_dacRange(DACx1416_HandleTypeDef dac);
-void DACx1416_set_dacRange(DACx1416_HandleTypeDef dac, DACx1416_dacRange dacRange);
-void DACx1416_set_trigger(DACx1416_HandleTypeDef dac, DACx1416_trigger_t triggerType);
-void DACx1416_set_broadcast_value(DACx1416_HandleTypeDef dac, uint16_t value);
-void DACx1416_set_dac_value(DACx1416_HandleTypeDef dac, DACx1416_DAC_t ch, uint16_t value);
-void DACx1416_set_diff_offset(DACx1416_HandleTypeDef dac, DACx1416_diff_offset diffOffset);
+void DACx1416_write_register(DACx1416_HandleTypeDef *dac, DACx1416_register_t reg, uint16_t data);
+uint16_t DACx1416_read_register(DACx1416_HandleTypeDef *dac, DACx1416_register_t reg);
+DACx1416_deviceID_t DACx1416_get_device_id(DACx1416_HandleTypeDef *dac);
+DACx1416_status_t DACx1416_get_status(DACx1416_HandleTypeDef *dac);
+DACx1416_spiconfig_t DACx1416_get_spiConfig(DACx1416_HandleTypeDef *dac);
+void DACx1416_set_spiConfig(DACx1416_HandleTypeDef *dac, DACx1416_spiconfig_t spiConfig);
+DACx1416_genconfig_t DACx1416_get_genConfig(DACx1416_HandleTypeDef *dac);
+void DACx1416_set_genConfig(DACx1416_HandleTypeDef *dac, DACx1416_genconfig_t genConfig);
+DACx1416_brdConfig DACx1416_get_brdConfig(DACx1416_HandleTypeDef *dac);
+void DACx1416_set_brdConfig(DACx1416_HandleTypeDef *dac, DACx1416_brdConfig brdConfig);
+DACx1416_syncConfig DACx1416_get_syncConfig(DACx1416_HandleTypeDef *dac);
+void DACx1416_set_syncConfig(DACx1416_HandleTypeDef *dac, DACx1416_syncConfig syncConfig);
+DACx1416_toggConfig DACx1416_get_toggConfig(DACx1416_HandleTypeDef *dac);
+void DACx1416_set_toggConfig(DACx1416_HandleTypeDef *dac, DACx1416_toggConfig toggConfig);
+DACx1416_dacPwdwn DACx1416_get_pwdwn(DACx1416_HandleTypeDef *dac);
+void DACx1416_set_pwdwn(DACx1416_HandleTypeDef *dac, DACx1416_dacPwdwn dacPwdwn);
+DACx1416_dacRange DACx1416_get_dacRange(DACx1416_HandleTypeDef *dac);
+void DACx1416_set_dacRange(DACx1416_HandleTypeDef *dac, DACx1416_dacRange dacRange);
+void DACx1416_set_trigger(DACx1416_HandleTypeDef *dac, DACx1416_trigger_t triggerType);
+void DACx1416_set_broadcast_value(DACx1416_HandleTypeDef *dac, uint16_t value);
+void DACx1416_set_dac_value(DACx1416_HandleTypeDef *dac, DACx1416_DAC_t ch, uint16_t value);
+void DACx1416_set_diff_offset(DACx1416_HandleTypeDef *dac, DACx1416_diff_offset diffOffset);
 
 
 #endif /* INC_DACX1416_H_ */

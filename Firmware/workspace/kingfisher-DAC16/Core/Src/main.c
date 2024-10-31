@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2024 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "DACx1416.h"
+#include "cmdParser.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,12 +42,16 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+CRC_HandleTypeDef hcrc;
+
 SPI_HandleTypeDef hspi1;
 
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-
+DACx1416_HandleTypeDef dac;
+volatile uint8_t dacUseCRC = 0;
+volatile uint8_t dacTransferComplete = 1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -54,6 +59,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -61,6 +67,7 @@ static void MX_USART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+// Function called when data is received via USB
 /* USER CODE END 0 */
 
 /**
@@ -94,15 +101,17 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_USART1_UART_Init();
-  //MX_USB_DEVICE_Init();
+  MX_USB_DEVICE_Init();
+  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
 
+	HAL_NVIC_SetPriority(SPI1_IRQn, 1, 0);
+	HAL_NVIC_EnableIRQ(SPI1_IRQn);
 
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
-
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
 
 //  uint8_t txBuffer[3] = {0b10000011,0b00001010, 0b10100100};
 //  uint8_t rxBuffer[3];
@@ -123,79 +132,97 @@ int main(void)
 //
 //  SPI1_TransmitReceive(txBuffer3, rxBuffer3, 3);
 
+//
+//  volatile uint16_t x;
+//  x = DACx1416_read_register_old(3);
+//  x = DACx1416_read_register_old(5);
+//  x = DACx1416_read_register_old(4);
+//  x = DACx1416_read_register_old(3);
+//  x = DACx1416_read_register_old(2);
+//  x = DACx1416_read_register_old(1);
+//
+//
+//  x = DACx1416_read_register_old(0x03);
+//  DACx1416_write_register_old(0x03, 0b0000101010000100);
+//  x = DACx1416_read_register_old(0x03);
+//
+//
+//  DACx1416_write_register_old(0xD, 0b0000);
+//
+//  x = DACx1416_read_register_old(0x09);
+//  DACx1416_write_register_old(0x09, 0x0FFFE );
+//  x = DACx1416_read_register_old(0x09);
+//
+//
+//
+//  DACx1416_write_register_old(0x10, 0);
+//  DACx1416_write_register_old(0x10, 1023); //0.078125
+//  DACx1416_write_register_old(0x10, 2047); //0.15625
+//  DACx1416_write_register_old(0x10, 4095); //0.3125
+//  DACx1416_write_register_old(0x10, 8191); //0.625
+//  DACx1416_write_register_old(0x10, 16383); //1.25
+//  DACx1416_write_register_old(0x10, 32767); //2.5
+//
+//
+//  DACx1416_write_register_old(0x10, 36000); // 2.7466V
+//  DACx1416_write_register_old(0x10, 40000); // 3.0528V
+//  DACx1416_write_register_old(0x10, 44000); // 3.3591V
+//  DACx1416_write_register_old(0x10, 48000); // 3.6654V
+//  DACx1416_write_register_old(0x10, 50000); // 3.8185V
+//  DACx1416_write_register_old(0x10, 52000); // 3.9715V
+//  DACx1416_write_register_old(0x10, 56000); // 4.2778V
+//  DACx1416_write_register_old(0x10, 60000); // 4.5841V   --> 4.37V
+//  DACx1416_write_register_old(0x10, 64000); // 4.8904V --> 4.497V
+//  DACx1416_write_register_old(0x10, 65535); //5V --> 3.5V
 
-  volatile uint16_t x;
-  x = DACx1416_read_register_old(3);
-  x = DACx1416_read_register_old(5);
-  x = DACx1416_read_register_old(4);
-  x = DACx1416_read_register_old(3);
-  x = DACx1416_read_register_old(2);
-  x = DACx1416_read_register_old(1);
+	dac.SPI_transmit = DACx1416_SPI_transmit;
+	dac.SPI_receive = DACx1416_SPI_receive;
+	dac.SPI_transmitReceive = DACx1416_SPI_transmitReceive;
+	dac.nCS = DACx1416_nCS;
+	dac.nLDAC = DACx1416_nLDAC;
+	dac.nRESET = DACx1416_nRESET;
+	dac.nCLR = DACx1416_nCLR;
+	dac.TGL = DACx1416_tgl;
+
+	volatile DACx1416_deviceID_t devID = DACx1416_get_device_id(&dac);
+	volatile DACx1416_spiconfig_t spiConfig = DACx1416_get_spiConfig(&dac);
+	devID = DACx1416_get_device_id(&dac);
+	spiConfig = DACx1416_get_spiConfig(&dac);
+	devID = DACx1416_get_device_id(&dac);
+	spiConfig = DACx1416_get_spiConfig(&dac);
+	devID = DACx1416_get_device_id(&dac);
+	spiConfig = DACx1416_get_spiConfig(&dac);
+
+	DACx1416_write_register(&dac, 3, 0x0AB4);
 
 
-  x = DACx1416_read_register_old(0x03);
-  DACx1416_write_register_old(0x03, 0b0000101010000100);
-  x = DACx1416_read_register_old(0x03);
+	dacUseCRC = 1;
 
 
-  DACx1416_write_register_old(0xD, 0b0000);
+	//DACx1416_write_register(&dac, 6, 0);
 
-  x = DACx1416_read_register_old(0x09);
-  DACx1416_write_register_old(0x09, 0x0FFFE );
-  x = DACx1416_read_register_old(0x09);
-
-
-
-  DACx1416_write_register_old(0x10, 0);
-  DACx1416_write_register_old(0x10, 1023); //0.078125
-  DACx1416_write_register_old(0x10, 2047); //0.15625
-  DACx1416_write_register_old(0x10, 4095); //0.3125
-  DACx1416_write_register_old(0x10, 8191); //0.625
-  DACx1416_write_register_old(0x10, 16383); //1.25
-  DACx1416_write_register_old(0x10, 32767); //2.5
+	devID = DACx1416_get_device_id(&dac);
+	spiConfig = DACx1416_get_spiConfig(&dac);
+	devID = DACx1416_get_device_id(&dac);
+	spiConfig = DACx1416_get_spiConfig(&dac);
+	devID = DACx1416_get_device_id(&dac);
+	spiConfig = DACx1416_get_spiConfig(&dac);
 
 
-  DACx1416_write_register_old(0x10, 36000); // 2.7466V
-  DACx1416_write_register_old(0x10, 40000); // 3.0528V
-  DACx1416_write_register_old(0x10, 44000); // 3.3591V
-  DACx1416_write_register_old(0x10, 48000); // 3.6654V
-  DACx1416_write_register_old(0x10, 50000); // 3.8185V
-  DACx1416_write_register_old(0x10, 52000); // 3.9715V
-  DACx1416_write_register_old(0x10, 56000); // 4.2778V
-  DACx1416_write_register_old(0x10, 60000); // 4.5841V   --> 4.37V
-  DACx1416_write_register_old(0x10, 64000); // 4.8904V --> 4.497V
-  DACx1416_write_register_old(0x10, 65535); //5V --> 3.5V
-
-
-
-  DACx1416_HandleTypeDef dac;
-  dac.SPI_transmit = DACx1416_SPI_transmit;
-  dac.SPI_receive = DACx1416_SPI_receive;
-  dac.SPI_transmitReceive = DACx1416_SPI_transmitReceive;
-  dac.nCS = DACx1416_nCS;
-  dac.nLDAC = DACx1416_nLDAC;
-  dac.nRESET = DACx1416_nRESET;
-  dac.nCLR = DACx1416_nCLR;
-  dac.TGL = DACx1416_tgl;
-
-
-  volatile DACx1416_deviceID_t devID =  DACx1416_get_device_id(dac);
-  volatile DACx1416_spiconfig_t spiConfig = DACx1416_get_spiConfig( dac);
-  asm("nop");
-  asm("nop");
-  asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1) {
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -250,6 +277,40 @@ void SystemClock_Config(void)
 }
 
 /**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_DISABLE;
+  hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_DISABLE;
+  hcrc.Init.GeneratingPolynomial = 7;
+  hcrc.Init.CRCLength = CRC_POLYLENGTH_8B;
+  hcrc.Init.InitValue = 0;
+  hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
+  hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
+  hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_BYTES;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
+
+}
+
+/**
   * @brief SPI1 Initialization Function
   * @param None
   * @retval None
@@ -275,16 +336,32 @@ static void MX_SPI1_Init(void)
   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_ENABLE;
   hspi1.Init.CRCPolynomial = 7;
-  hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+  hspi1.Init.CRCLength = SPI_CRC_LENGTH_8BIT;
   hspi1.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
   if (HAL_SPI_Init(&hspi1) != HAL_OK)
   {
     Error_Handler();
   }
   /* USER CODE BEGIN SPI1_Init 2 */
-
+	hspi1.Instance = SPI1;
+	hspi1.Init.Mode = SPI_MODE_MASTER;
+	hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+	hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+	hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+	hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
+	hspi1.Init.NSS = SPI_NSS_SOFT;
+	hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+	hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+	hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+	hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+	hspi1.Init.CRCPolynomial = 7;
+	hspi1.Init.CRCLength = SPI_CRC_LENGTH_8BIT;
+	hspi1.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
+	if (HAL_SPI_Init(&hspi1) != HAL_OK) {
+		Error_Handler();
+	}
   /* USER CODE END SPI1_Init 2 */
 
 }
@@ -375,7 +452,68 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+uint8_t calculate_crc8(uint8_t *data, uint32_t length) {
+    // Ensure the CRC peripheral is initialized
+    MX_CRC_Init();
+
+    // Calculate CRC
+    uint32_t crc_result = HAL_CRC_Calculate(&hcrc, (uint32_t *)data, length);
+
+    // Since we're using an 8-bit CRC, the result will be in the lower 8 bits
+    return (uint8_t)crc_result;
+}
+
+
+// Callback function for transmit-receive completion
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
+	if (hspi->Instance == SPI1) {
+		// Transmission completed, add your code here.
+	}
+}
+
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi) {
+	if (hspi->Instance == SPI1) {
+		// Reception completed, add your code here.
+	}
+}
+
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi) {
+	if (hspi->Instance == SPI1) {
+		// Transmission completed, add your code here.
+		dacTransferComplete = 1;
+	}
+}
+
+// Callback function for SPI errors
+void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi) {
+	if (hspi->Instance == SPI1) {
+		// Handle SPI communication error here
+		Error_Handler();
+	}
+}
+
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM1 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM1) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -384,11 +522,10 @@ static void MX_GPIO_Init(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1) {
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 

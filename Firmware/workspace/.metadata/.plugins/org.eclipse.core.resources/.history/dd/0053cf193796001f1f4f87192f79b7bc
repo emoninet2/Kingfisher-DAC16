@@ -1,0 +1,55 @@
+/*
+ * cmdParser.c
+ *
+ *  Created on: Oct 29, 2024
+ *      Author: habiburrahman
+ */
+
+#include "main.h"
+#include "cmdParser.h"
+#include "DACx1416.h"
+
+extern DACx1416_HandleTypeDef dac;
+
+
+
+void initCmd(){
+	  dac.SPI_transmit = DACx1416_SPI_transmit;
+	  dac.SPI_receive = DACx1416_SPI_receive;
+	  dac.SPI_transmitReceive = DACx1416_SPI_transmitReceive;
+	  dac.nCS = DACx1416_nCS;
+	  dac.nLDAC = DACx1416_nLDAC;
+	  dac.nRESET = DACx1416_nRESET;
+	  dac.nCLR = DACx1416_nCLR;
+	  dac.TGL = DACx1416_tgl;
+}
+
+
+void parseCmd(uint8_t *data, uint32_t len){
+
+
+	switch(data[0]){
+	case CMD_DAC_NOP:
+		asm("nop");
+		break;
+	case CMD_GET_DAC_DEVICEID:
+		uint16_t deviceIdVal = DACx1416_read_register(&dac,DACx1416_REG_DEVICEID);
+
+		if (CDC_Transmit_FS(deviceIdVal, 2) != 0) {
+			 Error_Handler();
+		}
+		break;
+	case CMD_GET_DAC_STATUS:
+		uint16_t status = DACx1416_read_register(&dac,DACx1416_REG_STATUS);
+		response[0] = (status) & 0xFF;
+		if (CDC_Transmit_FS(response, 1) != 0) {
+			 Error_Handler();
+		}
+
+
+		break;
+
+
+
+	}
+}

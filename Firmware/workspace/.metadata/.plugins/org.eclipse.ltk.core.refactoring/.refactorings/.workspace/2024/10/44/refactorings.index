@@ -4,3 +4,22 @@
 1730140180922	Delete 2 resources
 1730154976119	Delete resource 'kingfisher-DAC16/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc 2.c'
 1730154984198	Delete resource 'kingfisher-DAC16/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc 2.h'
+1730212868311	Delete 2 resources
+1730214956995	Delete 2 resources
+1730214972071	Delete 4 resources
+1730215066796	Delete 48 resources
+1730216080875	Delete 3 resources
+1730216091486	Delete resource 'kingfisher-DAC16/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc 2.c'
+1730216111874	Delete 5 resources
+1730216124290	Delete resource 'kingfisher-DAC16/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex 4.c'
+1730217216053	Delete resource 'kingfisher-DAC16/Core/Inc/parser.h'
+1730228230888	Delete resource 'kingfisher-DAC16/Core/Src/cmdParser.h'
+1730243577995	Delete 3 resources
+1730244036332	Delete 3 resources
+1730244074496	Delete resource 'kingfisher-DAC16/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex 2.c'
+1730244097425	Delete resource 'kingfisher-DAC16/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core 2.c'
+1730244112830	Delete resource 'kingfisher-DAC16/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc 2.c'
+1730247625361	Delete resource 'kingfisher-DAC16/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma 2.c'
+1730247629944	Delete resource 'kingfisher-DAC16/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex 2.c'
+1730282851268	Delete resource 'kingfisher-DAC16/Debug'
+1730403846554	Delete 5 resources

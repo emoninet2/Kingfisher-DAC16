@@ -1,28 +1,24 @@
-13:51:50 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+21:46:18 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
 make -j7 all 
-arm-none-eabi-gcc "../Core/Src/DACx1416.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/DACx1416.d" -MT"Core/Src/DACx1416.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/DACx1416.o"
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:179:33: warning: unused variable 'spiConfig' [-Wunused-variable]
-  179 |   volatile DACx1416_spiconfig_t spiConfig = DACx1416_get_spiConfig( dac);
-      |                                 ^~~~~~~~~
-../Core/Src/main.c:178:32: warning: unused variable 'devID' [-Wunused-variable]
-  178 |   volatile DACx1416_deviceID_t devID =  DACx1416_get_device_id(dac);
-      |                                ^~~~~
-../Core/Src/main.c:127:21: warning: variable 'x' set but not used [-Wunused-but-set-variable]
-  127 |   volatile uint16_t x;
-      |                     ^
+../Core/Src/main.c:188:39: warning: variable 'spiConfig' set but not used [-Wunused-but-set-variable]
+  188 |         volatile DACx1416_spiconfig_t spiConfig = DACx1416_get_spiConfig(&dac);
+      |                                       ^~~~~~~~~
+../Core/Src/main.c:187:38: warning: variable 'devID' set but not used [-Wunused-but-set-variable]
+  187 |         volatile DACx1416_deviceID_t devID = DACx1416_get_device_id(&dac);
+      |                                      ^~~~~
 arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/habiburrahman/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: kingfisher-DAC16.elf
  
 arm-none-eabi-size  kingfisher-DAC16.elf 
 arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
    text	   data	    bss	    dec	    hex	filename
-  31576	     12	   3060	  34648	   8758	kingfisher-DAC16.elf
+  43244	    268	   9100	  52612	   cd84	kingfisher-DAC16.elf
 Finished building: default.size.stdout
  
 Finished building: kingfisher-DAC16.list
  
 
-13:51:51 Build Finished. 0 errors, 3 warnings. (took 1s.10ms)
+21:46:19 Build Finished. 0 errors, 2 warnings. (took 1s.905ms)
 
