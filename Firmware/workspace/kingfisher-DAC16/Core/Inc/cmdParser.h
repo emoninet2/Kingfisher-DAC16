@@ -9,7 +9,7 @@
 #define INC_CMDPARSER_H_
 
 #include "main.h"
-
+#include "slip.h"
 
 void initCmd();
 
@@ -17,8 +17,8 @@ void initCmd();
 
 
 typedef enum{
-	CMD_READ_REGISTER 	= 0b00000000,
-	CMD_WRITE_REGISTER 	= 0b10000000,
+	CMD_WRITE_REGISTER = 0,
+	CMD_READ_REGISTER,
 	CMD_STREAM_WRITE_REGISTERS,
 	CMD_DAC_NOP,
 	CMD_GET_DAC_DEVICEID,
@@ -63,7 +63,7 @@ typedef enum{
 
 
 
-void parseCmd(uint8_t *data, uint32_t len);
+void parseCmd(SLIP_HandleTypeDef *slip, uint8_t *data, uint32_t len);
 
 
 #endif /* INC_CMDPARSER_H_ */

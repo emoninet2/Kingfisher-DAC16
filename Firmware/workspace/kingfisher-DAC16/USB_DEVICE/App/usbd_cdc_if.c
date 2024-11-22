@@ -23,6 +23,7 @@
 
 /* USER CODE BEGIN INCLUDE */
 #include "cmdParser.h"
+#include "fifo_queue.h"
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,6 +32,13 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+volatile uint8_t usb_cdc_rxDataLen;
+volatile uint8_t usb_cdc_has_char = 0;
+
+
+extern FIFOQueue *cdcRxQueue;
+
+
 
 /* USER CODE END PV */
 
@@ -94,7 +102,7 @@ uint8_t UserRxBufferFS[APP_RX_DATA_SIZE];
 uint8_t UserTxBufferFS[APP_TX_DATA_SIZE];
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */
-
+uint8_t *UserRxBufferFSPtr = UserRxBufferFS;
 /* USER CODE END PRIVATE_VARIABLES */
 
 /**
@@ -261,10 +269,30 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-  USBD_CDC_ReceivePacket(&hUsbDeviceFS);
 
-  parseCmd(Buf, *Len);
+	USBD_CDC_SetRxBuffer(&hUsbDeviceFS, UserRxBufferFSPtr + *Len);
+	USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+
+
+	UserRxBufferFSPtr = UserRxBufferFSPtr + *Len;
+	if ((UserRxBufferFSPtr + 64) > (UserRxBufferFS + MAX_QUEUE_SIZE)){
+		UserRxBufferFSPtr = UserRxBufferFS;
+	}
+
+
+
+
+  for (int i = 0; i<*Len; i++){
+	  enqueue(cdcRxQueue, &Buf[i]);
+  }
+
+
+
+  //char buff[1024];
+
+  //sprintf(buff, "data: %s, len: %d\r\n", Buf, *Len);
+  //CDC_Transmit_FS(buff, strlen(buff));
+
   return (USBD_OK);
   /* USER CODE END 6 */
 }

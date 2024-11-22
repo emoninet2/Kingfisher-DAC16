@@ -1,2 +1,0 @@
-../Core/Src/cmdParser.c:21:6:parseExtendedCmd	24	static
-../Core/Src/cmdParser.c:79:6:parseCmd	32	static

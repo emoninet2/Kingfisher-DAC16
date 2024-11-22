@@ -1,0 +1,9 @@
+../Core/Src/fifo_queue.c:6:12:createQueue	3
+../Core/Src/fifo_queue.c:25:6:isFull	1
+../Core/Src/fifo_queue.c:30:6:isEmpty	1
+../Core/Src/fifo_queue.c:35:6:enqueue	2
+../Core/Src/fifo_queue.c:47:7:dequeue	2
+../Core/Src/fifo_queue.c:59:7:peek	2
+../Core/Src/fifo_queue.c:68:6:clearQueue	1
+../Core/Src/fifo_queue.c:73:6:freeQueue	1
+../Core/Src/fifo_queue.c:79:6:printQueue	3

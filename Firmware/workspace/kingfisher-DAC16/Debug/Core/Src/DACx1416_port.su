@@ -1,0 +1,9 @@
+../Core/Src/DACx1416_port.c:16:9:DACx1416_calculate_crc8	24	static
+../Core/Src/DACx1416_port.c:26:6:DACx1416_SPI_transmit	56	dynamic
+../Core/Src/DACx1416_port.c:37:6:DACx1416_SPI_receive	56	dynamic
+../Core/Src/DACx1416_port.c:52:6:DACx1416_SPI_transmitReceive	32	static
+../Core/Src/DACx1416_port.c:64:6:DACx1416_nCS	16	static
+../Core/Src/DACx1416_port.c:73:6:DACx1416_nLDAC	16	static
+../Core/Src/DACx1416_port.c:81:6:DACx1416_nRESET	16	static
+../Core/Src/DACx1416_port.c:89:6:DACx1416_nCLR	16	static
+../Core/Src/DACx1416_port.c:98:6:DACx1416_tgl	16	static

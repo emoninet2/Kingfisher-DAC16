@@ -10,8 +10,11 @@
 #include "DACx1416.h"
 #include "usb_device.h"
 #include "usbd_cdc_if.h"
+#include "slip.h"
 
-extern DACx1416_HandleTypeDef dac;
+
+
+extern  DACx1416 dacUnit;
 extern SPI_HandleTypeDef hspi1;
 
 
@@ -70,47 +73,90 @@ void parseExtendedCmd(uint8_t *data, uint32_t len){
 		break;
 	}
 
-
 }
 
 
 
 
-void parseCmd(uint8_t *data, uint32_t len) {
+void parseCmd(SLIP_HandleTypeDef *slip, uint8_t *data, uint32_t len) {
 
 	uint8_t cmd = (data[0]>>6) & 0x3;
 
 	switch(cmd){
-	case CMD_READ_DAC_REGISTER: {//read register
+	case 0b00: { //write register
 
-		uint8_t address = data[0] & 0x3F;
-		uint16_t regVal = DACx1416_read_register(&dac,address);
-		uint8_t response[2];
-		response[0] = regVal >> 8;
-		response[1] = regVal & 0xFF;
-		if (CDC_Transmit_FS(response, 2) != USBD_OK) {
-					Error_Handler();
+		uint8_t rxBuffer[4];
+		if(len == 3){
+			dacUnit.port.nCS(0);
+			dacUnit.port.SPI_transmitReceive(data, rxBuffer, 3);
+			dacUnit.port.nCS(1);
+//			dacUnit.port.nCS(0);
+//			dacUnit.port.SPI_receive(rxBuffer, 3);
+//			dacUnit.port.nCS(1);
+			//slip_send_packet(slip, rxBuffer, 3);
 		}
+		else if(len == 4){
+			dacUnit.port.nCS(0);
+			dacUnit.port.SPI_transmitReceive(data, rxBuffer, 4);
+			dacUnit.port.nCS(1);
+//			dacUnit.port.nCS(0);
+//			dacUnit.port.SPI_receive(rxBuffer, 4);
+//			dacUnit.port.nCS(1);
+			//slip_send_packet(slip, rxBuffer, 4);
+		}
+
+
+
 		break;
 	}
-	case CMD_WRITE_DAC_REGISTER: { //write register
+
+	case 0b10: {//read register
 
 		uint8_t address = data[0] & 0x3F;
-		uint16_t value = data[1]<<8 | data[2];
-		DACx1416_write_register(&dac, address, value);
+		uint16_t regVal;
+
+		uint8_t txBuffer[4] = { address | (1 << 7), 0xFF, 0xFF , 0};
+		uint8_t rxBuffer[4];
+
+		if(len == 1){
+
+			dacUnit.port.nCS(0);
+			dacUnit.port.SPI_transmitReceive(txBuffer, rxBuffer, 3);
+			dacUnit.port.nCS(1);
+			dacUnit.port.nCS(0);
+			dacUnit.port.SPI_receive(rxBuffer, 3);
+			dacUnit.port.nCS(1);
+			slip_send_packet(slip, rxBuffer, 3);
+
+		}
+		else if(len == 2){
+
+			//uint8_t crc8 = dacUnit.port.calculate_crc8(txBuffer, 3);
+			txBuffer[0] = address | (1 << 7);
+			txBuffer[1] = 0xFF;
+			txBuffer[2] = 0xFF;
+			txBuffer[3] = data[1];
+			dacUnit.port.nCS(0);
+			dacUnit.port.SPI_transmitReceive(txBuffer, rxBuffer, 4);
+			dacUnit.port.nCS(1);
+			dacUnit.port.nCS(0);
+			dacUnit.port.SPI_receive(rxBuffer, 4);
+			dacUnit.port.nCS(1);
+			slip_send_packet(slip, rxBuffer, 4);
+
+		}
+
+		//DACx1416_read_register(&dacUnit,address, &regVal);
+
 
 
 
 		break;
 	}
-	case CMD_WRITE_STREAM_DAC_REGISTERS: { //stream write register
 
-
-		break;
-	}
 
 	case CMD_EXTENDED_COMMANDS: { //parse extended commands
-		parseExtendedCmd(data,  len);
+		//parseExtendedCmd(data,  len);
 		break;
 	}
 	default:

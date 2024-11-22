@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="DACx1416_SPI_transmitReceive"/>
+		<item key="selection" value="dac"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="dac"/>
+			<item value="DACx1416_DIFF_DAC_14_15"/>
+			<item value="DACx1416_trigger_t"/>
+			<item value="RESEET"/>
+			<item value="soft"/>
+			<item value=";"/>
+			<item value="bool"/>
+			<item value="SPI1_TransmitReceive"/>
 			<item value="DACx1416_SPI_transmitReceive"/>
 			<item value="HAL_SPI_TxRxCpltCallback"/>
 			<item value="error"/>
@@ -16,12 +24,15 @@
 			<item value="DACx1416_HandleTypeDef dac"/>
 		</list>
 		<list key="replacehistory">
+			<item value="dacUnit"/>
+			<item value="{}"/>
+			<item value="uint8_t"/>
 			<item value="dac-&gt;"/>
 			<item value="DACx1416_HandleTypeDef *dac"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1332"/>
+		<item key="DIALOG_X_ORIGIN" value="1672"/>
 		<item key="DIALOG_Y_ORIGIN" value="348"/>
 		<item key="DIALOG_WIDTH" value="336"/>
 		<item key="DIALOG_HEIGHT" value="400"/>

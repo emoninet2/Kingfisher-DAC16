@@ -1,0 +1,2 @@
+../Core/Src/slip.c:13:6:slip_send_packet	32	static
+../Core/Src/slip.c:51:10:slip_recv_packet	32	static

@@ -6,8 +6,11 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/DACx1416.c \
+../Core/Src/DACx1416_port.c \
 ../Core/Src/cmdParser.c \
+../Core/Src/fifo_queue.c \
 ../Core/Src/main.c \
+../Core/Src/slip.c \
 ../Core/Src/stm32l4xx_hal_msp.c \
 ../Core/Src/stm32l4xx_hal_timebase_tim.c \
 ../Core/Src/stm32l4xx_it.c \
@@ -17,8 +20,11 @@ C_SRCS += \
 
 OBJS += \
 ./Core/Src/DACx1416.o \
+./Core/Src/DACx1416_port.o \
 ./Core/Src/cmdParser.o \
+./Core/Src/fifo_queue.o \
 ./Core/Src/main.o \
+./Core/Src/slip.o \
 ./Core/Src/stm32l4xx_hal_msp.o \
 ./Core/Src/stm32l4xx_hal_timebase_tim.o \
 ./Core/Src/stm32l4xx_it.o \
@@ -28,8 +34,11 @@ OBJS += \
 
 C_DEPS += \
 ./Core/Src/DACx1416.d \
+./Core/Src/DACx1416_port.d \
 ./Core/Src/cmdParser.d \
+./Core/Src/fifo_queue.d \
 ./Core/Src/main.d \
+./Core/Src/slip.d \
 ./Core/Src/stm32l4xx_hal_msp.d \
 ./Core/Src/stm32l4xx_hal_timebase_tim.d \
 ./Core/Src/stm32l4xx_it.d \
@@ -45,7 +54,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/DACx1416.cyclo ./Core/Src/DACx1416.d ./Core/Src/DACx1416.o ./Core/Src/DACx1416.su ./Core/Src/cmdParser.cyclo ./Core/Src/cmdParser.d ./Core/Src/cmdParser.o ./Core/Src/cmdParser.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32l4xx_hal_msp.cyclo ./Core/Src/stm32l4xx_hal_msp.d ./Core/Src/stm32l4xx_hal_msp.o ./Core/Src/stm32l4xx_hal_msp.su ./Core/Src/stm32l4xx_hal_timebase_tim.cyclo ./Core/Src/stm32l4xx_hal_timebase_tim.d ./Core/Src/stm32l4xx_hal_timebase_tim.o ./Core/Src/stm32l4xx_hal_timebase_tim.su ./Core/Src/stm32l4xx_it.cyclo ./Core/Src/stm32l4xx_it.d ./Core/Src/stm32l4xx_it.o ./Core/Src/stm32l4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32l4xx.cyclo ./Core/Src/system_stm32l4xx.d ./Core/Src/system_stm32l4xx.o ./Core/Src/system_stm32l4xx.su
+	-$(RM) ./Core/Src/DACx1416.cyclo ./Core/Src/DACx1416.d ./Core/Src/DACx1416.o ./Core/Src/DACx1416.su ./Core/Src/DACx1416_port.cyclo ./Core/Src/DACx1416_port.d ./Core/Src/DACx1416_port.o ./Core/Src/DACx1416_port.su ./Core/Src/cmdParser.cyclo ./Core/Src/cmdParser.d ./Core/Src/cmdParser.o ./Core/Src/cmdParser.su ./Core/Src/fifo_queue.cyclo ./Core/Src/fifo_queue.d ./Core/Src/fifo_queue.o ./Core/Src/fifo_queue.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/slip.cyclo ./Core/Src/slip.d ./Core/Src/slip.o ./Core/Src/slip.su ./Core/Src/stm32l4xx_hal_msp.cyclo ./Core/Src/stm32l4xx_hal_msp.d ./Core/Src/stm32l4xx_hal_msp.o ./Core/Src/stm32l4xx_hal_msp.su ./Core/Src/stm32l4xx_hal_timebase_tim.cyclo ./Core/Src/stm32l4xx_hal_timebase_tim.d ./Core/Src/stm32l4xx_hal_timebase_tim.o ./Core/Src/stm32l4xx_hal_timebase_tim.su ./Core/Src/stm32l4xx_it.cyclo ./Core/Src/stm32l4xx_it.d ./Core/Src/stm32l4xx_it.o ./Core/Src/stm32l4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32l4xx.cyclo ./Core/Src/system_stm32l4xx.d ./Core/Src/system_stm32l4xx.o ./Core/Src/system_stm32l4xx.su
 
 .PHONY: clean-Core-2f-Src
 
