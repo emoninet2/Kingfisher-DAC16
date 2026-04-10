@@ -1,7 +1,9 @@
 import sliplib
 import serial
 import serial.tools.list_ports
-from enum import Enum
+import time
+from enum import Enum, IntEnum
+
 
 class DAC16:
     class register(Enum):
@@ -53,7 +55,23 @@ class DAC16:
         ab_tog0 = 5
         ldac = 4
         soft_reset = 0
-    
+
+    class extended:
+        """
+        SLIP extended commands: firmware uses (payload[0] >> 6) == 0b11;
+        low 6 bits are ExtendedCmd_t in cmdParser.h.
+        """
+
+        SLIP_PREFIX = 0b11 << 6
+        SUBCMD_MASK = 0x3F
+
+        class cmd(IntEnum):
+            HARDWARE_RESET = 0
+
+        @classmethod
+        def first_payload_byte(cls, command: IntEnum) -> int:
+            return cls.SLIP_PREFIX | (int(command) & cls.SUBCMD_MASK)
+
     def __init__(self, target_device_string=None, manufacturer=None, description=None):
         """
         Initialize the DAC16 class and connect to a specific device.
@@ -149,6 +167,31 @@ class DAC16:
         decoded_data = sliplib.decode(packet)
         #print(f"Received packet: {decoded_data}")
         return decoded_data
+
+    def send_extended_command(self, command: IntEnum):
+        """
+        Send one-byte extended SLIP payload and return the decoded reply.
+
+        :param command: ``DAC16.extended.cmd`` member (add new ids with firmware).
+        """
+        b = self.extended.first_payload_byte(command)
+        self.send_data(bytearray([b]))
+        return self.receive_data()
+
+    def hardware_reset(self, settle_ms: float = 5.0):
+        """
+        Assert DAC nRESET (hardware reset). Firmware returns a one-byte SLIP payload (0x00 = ok).
+
+        The MCU already holds reset low ~2 ms and waits 1 ms after release; the DAC may still
+        need a short recovery before SPI traffic — ``settle_ms`` sleeps on the host after the
+        SLIP reply (0 disables). Check the DAC81416 datasheet for exact limits.
+
+        Resets the DAC81416 register file; refresh DACx1416_use_CRC from actual SPICONFIG if needed.
+        """
+        reply = self.send_extended_command(self.extended.cmd.HARDWARE_RESET)
+        if settle_ms > 0:
+            time.sleep(settle_ms / 1000.0)
+        return reply
 
     def close(self):
         """

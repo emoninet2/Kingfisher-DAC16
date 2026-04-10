@@ -11,12 +11,7 @@
 #include "main.h"
 #include "slip.h"
 
-void initCmd();
-
-
-
-
-typedef enum{
+typedef enum {
 	CMD_WRITE_REGISTER = 0,
 	CMD_READ_REGISTER,
 	CMD_STREAM_WRITE_REGISTERS,
@@ -43,27 +38,19 @@ typedef enum{
 	CMD_SET_DAC_DACnREG,
 	CMD_GET_DAC_OFFSET,
 	CMD_SET_DAC_OFFSET,
-}cmd_dep_t;
+} cmd_dep_t;
 
-
-
-typedef enum{
+typedef enum {
 	CMD_READ_DAC_REGISTER = 0b00,
 	CMD_WRITE_DAC_REGISTER = 0b01,
-	CMD_WRITE_STREAM_DAC_REGISTERS = 0b10,
 	CMD_EXTENDED_COMMANDS = 0b11
-}cmd_t;
+} cmd_t;
 
-
-
-typedef enum{
-	EXTCMD_CONT_SPI_CRC_ON,
-	EXTCMD_CONT_SPI_CRC_OFF,
-}ExtendedCmd_t;
-
-
+/* Lower 6 bits of first byte when bits [7:6] == CMD_EXTENDED_COMMANDS (0b11). */
+typedef enum {
+	EXTCMD_HARDWARE_RESET = 0,
+} ExtendedCmd_t;
 
 void parseCmd(SLIP_HandleTypeDef *slip, uint8_t *data, uint32_t len);
-
 
 #endif /* INC_CMDPARSER_H_ */

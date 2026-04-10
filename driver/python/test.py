@@ -2,13 +2,18 @@ import sliplib
 import serial
 import serial.tools.list_ports
 from kingfisher_dac16 import DAC16
+import time
+
 
 
 dac = DAC16(manufacturer='emon.no')
 dac = DAC16(description='KINGFISHER-DAC16')
 
 
-dac.DACx1416_spiConfig_set_crc_en(True)
+dac.hardware_reset()
+
+
+dac.DACx1416_spiConfig_set_crc_en(False)
 
 productID = dac.DACx1416_get_product_id()
 # Print both values in hexadecimal format

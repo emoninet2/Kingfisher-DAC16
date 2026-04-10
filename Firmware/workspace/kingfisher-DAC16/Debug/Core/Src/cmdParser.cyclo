@@ -1,2 +1,2 @@
-../Core/Src/cmdParser.c:24:6:parseExtendedCmd	5
-../Core/Src/cmdParser.c:81:6:parseCmd	9
+../Core/Src/cmdParser.c:15:13:parseExtendedCmd	3
+../Core/Src/cmdParser.c:40:6:parseCmd	9
