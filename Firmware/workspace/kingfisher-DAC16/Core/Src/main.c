@@ -30,7 +30,7 @@
 
 #include "fifo_queue.h"
 #include "slip.h"
-//#include "cmdParser.h"
+#include "cmdParser.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,15 +100,14 @@ char cdc_recv_char(void) {
         HAL_Delay(1); // Sleep for 1 ms (adjust based on your system requirements)
     }
 
-    uint8_t *value = (uint8_t *)dequeue(cdcRxQueue);  // Dequeue a uint8_t
+    void *value = dequeue(cdcRxQueue);
     if (!value) {
         //printf("Failed to dequeue from CDC Rx queue.\n");
         return 0xFF;  // Return an error value if dequeue fails
     }
 
-    uint8_t result = *value;  // Dereference the pointer to get the uint8_t value
-    //*value = NULL;
-    //free(value);              // Free the allocated memory
+    // Bytes are stored as pointer-sized tagged values (byte + 1) in the CDC RX queue.
+    uint8_t result = (uint8_t)(((uintptr_t)value) - 1U);
     return result;            // Return the dequeued value
 }
 
@@ -169,49 +168,53 @@ int main(void)
 	dacUnit.port.calculate_crc8 = DACx1416_calculate_crc8;
 
 	DACx1416_initialize(&dacUnit);
-//
+
+
 //	uint16_t temp;
-//	DACx1416_read_register(&dacUnit, DACx1416_REG_SPICONFIG, &temp);
-//	//printf("SPICONFIG : %X\r\n", temp);
-//
-//	DACx1416_read_register(&dacUnit, DACx1416_REG_SPICONFIG, &temp);
-//	//printf("SPICONFIG : %X\r\n", temp);
-//
-//	DACx1416_read_register(&dacUnit, DACx1416_REG_SPICONFIG, &temp);
-//	//printf("SPICONFIG : %X\r\n", temp);
-//
+//	uint16_t temp2;
+////
+////
+////	DACx1416_read_register(&dacUnit, 0x01, &temp2);
+////
+////	DACx1416_read_register(&dacUnit, DACx1416_REG_SPICONFIG, &temp2);
+////
 //	temp = 0x1A2A;
 //	DACx1416_write_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp);
-//	DACx1416_read_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp);
-//	//printf("AHA 1 : %X\r\n", temp);
-//
+//	DACx1416_read_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp2);
+////
+////
 //	temp = 0x2A3A;
 //	DACx1416_write_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp);
-//	DACx1416_read_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp);
-//	//printf("AHA 2 : %X\r\n", temp);
+//	DACx1416_read_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp2);
+//
+
+
+//
+//	DACx1416_read_register(&dacUnit, DACx1416_REG_SPICONFIG, &temp2);
+//
+//
+//	temp = 0x3A4A;
+//	DACx1416_write_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp);
+//	DACx1416_read_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp2);
+//
+//
+//	DACx1416_devicePowerDown(&dacUnit, 0);
+//	DACx1416_channelRange(&dacUnit, DACx1416_DAC0, DACx1416_DACRANGE_0_to_p5);
 //
 //	DACx1416_devicePowerDown(&dacUnit, 1);
 //	DACx1416_devicePowerDown(&dacUnit, 0);
 //
-//	DACx1416_read_register(&dacUnit, DACx1416_REG_SPICONFIG, &temp);
-//	//printf("SPI CONFIG : %X\r\n", temp);
-//
-//	temp = 0x3A4A;
-//	DACx1416_write_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp);
-//	DACx1416_read_register(&dacUnit, DACx1416_REG_DACPWDWN, &temp);
-//	//printf("AHA 3 : %X\r\n", temp);
-//
-//	//DACx1416_devicePowerDown(&dacUnit, 0);
-//	DACx1416_channelRange(&dacUnit, DACx1416_DAC0, DACx1416_DACRANGE_n5_to_p5);
 //	DACx1416_channelEnable(&dacUnit, DACx1416_DAC0, 1);
+////
+////
+//	DACx1416_crcEnable(&dacUnit, 0);
 //
-//	DACx1416_crcEnable(&dacUnit, 1);
-//
-//	DACx1416_channelValue(&dacUnit, DACx1416_DAC0, 1023);
+//	DACx1416_channelValue(&dacUnit, DACx1416_DAC0, 5000);
 //	DACx1416_channelValue(&dacUnit, DACx1416_DAC0, 16383);
 //	DACx1416_channelValue(&dacUnit, DACx1416_DAC0, 44000);
 //	DACx1416_channelValue(&dacUnit, DACx1416_DAC0, 60000);
 //	DACx1416_channelValue(&dacUnit, DACx1416_DAC0, 65535);
+////
 
 
 
@@ -224,26 +227,7 @@ int main(void)
 
 	slip.recv_char = cdc_recv_char;
 	slip.send_char = cdc_send_char;
-//
-//
-//	uint16_t temp = 0;
-//	DACx1416_read_register(&dac, DACx1416_REG_DEVICEID, &temp);
-//	DACx1416_read_register(&dac, DACx1416_REG_STATUS, &temp);
-//	DACx1416_read_register(&dac, DACx1416_REG_SPICONFIG, &temp);
-//	DACx1416_read_register(&dac, DACx1416_REG_GENCONFIG, &temp);
-//
-//	temp = 0x0AA4;
-//	DACx1416_write_register(&dac, DACx1416_REG_SPICONFIG, &temp);
-//
-//	DACx1416_crcAlarmEnable(&dac, 1);
-//
-//	DACx1416_read_register(&dac, DACx1416_REG_DEVICEID, &temp);
-//	DACx1416_read_register(&dac, DACx1416_REG_STATUS, &temp);
-//	DACx1416_read_register(&dac, DACx1416_REG_SPICONFIG, &temp);
-//	DACx1416_read_register(&dac, DACx1416_REG_GENCONFIG, &temp);
-//
-//	DACx1416_deviceID_t deviceID;
-//	DACx1416_get_device_id(&dac, &deviceID);
+
 //
 //	asm("nop");
 //	asm("nop");
@@ -254,18 +238,27 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	uint8_t slipRxData[1024];
-	uint8_t slipTxData[1024] = "ABCDE";
-
+	uint8_t slipTxData[1024] = "HELLO";
 
 
 
 	while (1) {
-
-		//char c = cdc_recv_char();
+//
+//		char c = cdc_recv_char();
+//		printf(&c);
+//		printf("\r\n");
 		//cdc_send_char(c);
 
-		uint32_t len = slip_recv_packet(&slip, slipRxData, 1024);
-		parseCmd(&slip, slipRxData, len);
+		uint32_t len = slip_recv_packet(&slip, slipRxData, sizeof(slipRxData));
+
+		if (len > 0){
+			//DACx1416_SPI_transmitReceive((slipRxData, slipTxData, len));
+			parseCmd(&slip, slipRxData, len);
+			//slip_send_packet(&slip, slipTxData, len);
+		}
+
+
+
 
 
     /* USER CODE END WHILE */

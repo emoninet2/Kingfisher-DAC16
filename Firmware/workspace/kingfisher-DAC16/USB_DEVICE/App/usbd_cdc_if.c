@@ -22,6 +22,7 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
+#include <stdint.h>
 #include "cmdParser.h"
 #include "fifo_queue.h"
 /* USER CODE END INCLUDE */
@@ -283,7 +284,8 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 
 
   for (int i = 0; i<*Len; i++){
-	  enqueue(cdcRxQueue, &Buf[i]);
+	  // Store byte value directly as a tagged pointer to avoid lifetime issues with Buf.
+	  enqueue(cdcRxQueue, (void *)(uintptr_t)(Buf[i] + 1U));
   }
 
 

@@ -1,7 +1,335 @@
-22:19:05 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+00:26:40 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:267:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  267 |         uint8_t slipTxData[1024];
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  45780	    364	   9924	  56068	   db04	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:26:43 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
 make -j7 all 
 arm-none-eabi-size  kingfisher-DAC16.elf 
    text	   data	    bss	    dec	    hex	filename
-  45740	    364	   9924	  56028	   dadc	kingfisher-DAC16.elf
+  45780	    364	   9924	  56068	   db04	kingfisher-DAC16.elf
 Finished building: default.size.stdout
+ 
+00:27:44 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:267:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  267 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+../Core/Src/main.c:179:18: warning: unused variable 'temp3' [-Wunused-variable]
+  179 |         uint16_t temp3 = temp2 >> 2;
+      |                  ^~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47372	    364	   9924	  57660	   e13c	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:28:51 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:260:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  260 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  45824	    364	   9924	  56112	   db30	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:29:31 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:260:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  260 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  46232	    364	   9924	  56520	   dcc8	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:29:53 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:260:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  260 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47216	    364	   9924	  57504	   e0a0	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:30:21 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:193:67: error: 'temp2' undeclared (first use in this function)
+  193 |         DACx1416_read_register(&dacUnit, DACx1416_REG_SPICONFIG, &temp2);
+      |                                                                   ^~~~~
+../Core/Src/main.c:193:67: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:196:9: error: 'temp' undeclared (first use in this function)
+  196 |         temp = 0x3A4A;
+      |         ^~~~
+../Core/Src/main.c:260:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  260 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+make: *** [Core/Src/subdir.mk:52: Core/Src/main.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+00:30:38 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:196:9: error: 'temp' undeclared (first use in this function); did you mean 'temp2'?
+  196 |         temp = 0x3A4A;
+      |         ^~~~
+      |         temp2
+../Core/Src/main.c:196:9: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:260:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  260 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+make: *** [Core/Src/subdir.mk:52: Core/Src/main.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+00:30:47 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:260:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  260 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47116	    364	   9924	  57404	   e03c	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:31:18 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:260:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  260 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47152	    364	   9924	  57440	   e060	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:31:46 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:260:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  260 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47188	    364	   9924	  57476	   e084	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:32:29 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:241:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  241 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  46380	    364	   9924	  56668	   dd5c	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:32:56 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:241:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  241 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47188	    364	   9924	  57476	   e084	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:33:18 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:241:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  241 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47136	    364	   9924	  57424	   e050	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:33:43 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:241:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  241 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  46656	    364	   9924	  56944	   de70	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:34:04 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+   text	   data	    bss	    dec	    hex	filename
+  46656	    364	   9924	  56944	   de70	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+00:34:51 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:241:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  241 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  46704	    364	   9924	  56992	   dea0	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:35:19 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:241:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  241 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47196	    364	   9924	  57484	   e08c	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:35:47 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:241:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  241 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  47160	    364	   9924	  57448	   e068	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
+ 
+00:37:25 **** Incremental Build of configuration Debug for project kingfisher-DAC16 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:241:17: warning: unused variable 'slipTxData' [-Wunused-variable]
+  241 |         uint8_t slipTxData[1024] = "HELLO";
+      |                 ^~~~~~~~~~
+arm-none-eabi-gcc -o "kingfisher-DAC16.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/emon/Documents/Projects/Kingfisher-DAC16/Firmware/workspace/kingfisher-DAC16/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kingfisher-DAC16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: kingfisher-DAC16.elf
+ 
+arm-none-eabi-size  kingfisher-DAC16.elf 
+arm-none-eabi-objdump -h -S kingfisher-DAC16.elf  > "kingfisher-DAC16.list"
+   text	   data	    bss	    dec	    hex	filename
+  45824	    364	   9924	  56112	   db30	kingfisher-DAC16.elf
+Finished building: default.size.stdout
+ 
+Finished building: kingfisher-DAC16.list
  

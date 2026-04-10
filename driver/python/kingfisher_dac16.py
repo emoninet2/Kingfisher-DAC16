@@ -112,6 +112,11 @@ class DAC16:
             raise Exception("Serial port not initialized.")
         
         encoded_data = sliplib.encode(data)
+        # Ensure full SLIP framing even if library encode() only escapes payload.
+        if not encoded_data.startswith(b"\xC0"):
+            encoded_data = b"\xC0" + encoded_data
+        if not encoded_data.endswith(b"\xC0"):
+            encoded_data = encoded_data + b"\xC0"
         self.serial_port.write(encoded_data)
         #print(f"Sent: {encoded_data}")
 

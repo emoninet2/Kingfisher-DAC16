@@ -90,19 +90,13 @@ void parseCmd(SLIP_HandleTypeDef *slip, uint8_t *data, uint32_t len) {
 			dacUnit.port.nCS(0);
 			dacUnit.port.SPI_transmitReceive(data, rxBuffer, 3);
 			dacUnit.port.nCS(1);
-//			dacUnit.port.nCS(0);
-//			dacUnit.port.SPI_receive(rxBuffer, 3);
-//			dacUnit.port.nCS(1);
-			//slip_send_packet(slip, rxBuffer, 3);
+			slip_send_packet(slip, rxBuffer, 3);
 		}
 		else if(len == 4){
 			dacUnit.port.nCS(0);
 			dacUnit.port.SPI_transmitReceive(data, rxBuffer, 4);
 			dacUnit.port.nCS(1);
-//			dacUnit.port.nCS(0);
-//			dacUnit.port.SPI_receive(rxBuffer, 4);
-//			dacUnit.port.nCS(1);
-			//slip_send_packet(slip, rxBuffer, 4);
+			slip_send_packet(slip, rxBuffer, 4);
 		}
 
 
