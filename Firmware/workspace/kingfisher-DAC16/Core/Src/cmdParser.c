@@ -124,8 +124,7 @@ void parseCmd(SLIP_HandleTypeDef *slip, uint8_t *data, uint32_t len) {
 
 		}
 		else if(len == 2){
-
-			//uint8_t crc8 = dacUnit.port.calculate_crc8(txBuffer, 3);
+			/* CRC-enabled read: first 32-bit cycle is read command + CRC from host. */
 			txBuffer[0] = address | (1 << 7);
 			txBuffer[1] = 0xFF;
 			txBuffer[2] = 0xFF;
@@ -133,8 +132,15 @@ void parseCmd(SLIP_HandleTypeDef *slip, uint8_t *data, uint32_t len) {
 			dacUnit.port.nCS(0);
 			dacUnit.port.SPI_transmitReceive(txBuffer, rxBuffer, 4);
 			dacUnit.port.nCS(1);
+			/*
+			 * Second cycle must also be a valid 32-bit frame (CRC-EN). All-zero SDI
+			 * has an invalid CRC and the DAC can reject / corrupt readback.
+			 * NOP write (0x00,0x00,0x00) + correct CRC clocks out prior read data.
+			 */
+			uint8_t txSecond[4] = {0x00, 0x00, 0x00, 0x00};
+			txSecond[3] = dacUnit.port.calculate_crc8(txSecond, 3);
 			dacUnit.port.nCS(0);
-			dacUnit.port.SPI_receive(rxBuffer, 4);
+			dacUnit.port.SPI_transmitReceive(txSecond, rxBuffer, 4);
 			dacUnit.port.nCS(1);
 			slip_send_packet(slip, rxBuffer, 4);
 

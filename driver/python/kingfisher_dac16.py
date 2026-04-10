@@ -90,6 +90,7 @@ class DAC16:
         self.dac_pwdwn = [None] * 16 
         self.dac_range = [self.rangeSel.V0_VP5] * 16
 
+
     def print_port_details(self):
         """
         Print details of the selected serial port.
@@ -158,7 +159,7 @@ class DAC16:
             print("Serial port closed.")
 
     def calculate_crc(self, data):
-        # Compute the CRC-8 using the zlib library with polynomial 0x07
+        # TI DACx1416 / DAC81416 SPI CRC-8-ATM (HEC), poly x^8+x^2+x+1 (0x07).
         crc = 0
         polynomial = 0x07
         for byte in data:
@@ -173,7 +174,7 @@ class DAC16:
         
     
 
-    def DACx1416_read_register(self, register_address, use_crc=False):
+    def DACx1416_read_register(self, register_address, use_crc=False, verify_rx_crc=True):
         # Prepare the base command with the read bit (7th bit set)
         command = register_address | (1 << 7)
 
@@ -196,9 +197,12 @@ class DAC16:
             # Recalculate CRC for the received data
             crc8_calculated = self.calculate_crc(bytearray([byte0, byte1, byte2]))
 
-            # Validate CRC
-            if crc8_calculated != crc8_received:
-                raise ValueError("CRC mismatch: Data integrity check failed.")
+            if verify_rx_crc and crc8_calculated != crc8_received:
+                raise ValueError(
+                    "CRC mismatch: Data integrity check failed. "
+                    f"got {crc8_received:#04x}, expected {crc8_calculated:#04x}; "
+                    f"bytes {byte0:#04x} {byte1:#04x} {byte2:#04x}"
+                )
 
             # Return the 16-bit register value
             return (byte1 << 8) | byte2
@@ -226,7 +230,9 @@ class DAC16:
 
         # Send the data packet
         self.send_data(data_packet)
-
+        # Firmware always SLIP-wraps the SPI MISO bytes for writes; drain them
+        # so the next read_register() does not consume a stale echo frame.
+        self.receive_data()
 
     def DACx1416_CRC_Mode(self, enable=False):
         pass
@@ -309,10 +315,24 @@ class DAC16:
         return (spiConfigVal >> 4) & 0x01
 
     def DACx1416_spiConfig_set_crc_en(self, value):
-        spiConfigVal = self.DACx1416_read_register(self.register.SPICONFIG.value, self.DACx1416_use_CRC)
+        """
+        Enable or disable DAC SPI CRC in SPICONFIG.
+
+        The write that turns CRC on must use the *current* frame format (no CRC
+        byte while CRC is still off). The write that turns CRC off must still use
+        a 4-byte CRC frame while the device expects CRC.
+        """
+        want_crc = bool(value)
+        spiConfigVal = self.DACx1416_read_register(
+            self.register.SPICONFIG.value, self.DACx1416_use_CRC
+        )
         spiConfigVal &= ~(1 << 4)
-        spiConfigVal |= (value & 0x01) << 4
-        self.DACx1416_write_register(self.register.SPICONFIG.value, spiConfigVal, self.DACx1416_use_CRC)
+        spiConfigVal |= (want_crc & 0x01) << 4
+        # Use pre-update flag for the SPI transaction only.
+        self.DACx1416_write_register(
+            self.register.SPICONFIG.value, spiConfigVal, self.DACx1416_use_CRC
+        )
+        self.DACx1416_use_CRC = want_crc
 
     def DACx1416_spiConfig_get_str_en(self):
         spiConfigVal = self.DACx1416_read_register(self.register.SPICONFIG.value, self.DACx1416_use_CRC)

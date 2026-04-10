@@ -7,7 +7,8 @@ from kingfisher_dac16 import DAC16
 dac = DAC16(manufacturer='emon.no')
 dac = DAC16(description='KINGFISHER-DAC16')
 
-dac.DACx1416_use_CRC = False
+
+dac.DACx1416_spiConfig_set_crc_en(True)
 
 productID = dac.DACx1416_get_product_id()
 # Print both values in hexadecimal format
@@ -16,7 +17,7 @@ print(productID)
 dac.DACx1416_spiConfig_set_dev_pwdwn(0)
 dac.DACx1416_set_dac_pwdwn(0, 0)
 dac.DACx1416_set_dacRange(0, dac.rangeSel.V0_VP5.value)
-dac.DACx1416_dac_value(0, 65535)
+dac.DACx1416_dac_value(0, 32768)
 
 
 

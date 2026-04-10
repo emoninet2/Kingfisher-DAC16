@@ -126,8 +126,10 @@ DACx1416_error_t DACx1416_read_register(DACx1416 *dac, DACx1416_register_t addr,
 		dac->port.nCS(0);
 		dac->port.SPI_transmitReceive(txBuffer, rxBuffer, 4);
 		dac->port.nCS(1);
+		uint8_t txSecond[4] = {0x00, 0x00, 0x00, 0x00};
+		txSecond[3] = dac->port.calculate_crc8(txSecond, 3);
 		dac->port.nCS(0);
-		dac->port.SPI_receive(rxBuffer, 4);
+		dac->port.SPI_transmitReceive(txSecond, rxBuffer, 4);
 		dac->port.nCS(1);
 		crc8 = dac->port.calculate_crc8(rxBuffer, 3);
 

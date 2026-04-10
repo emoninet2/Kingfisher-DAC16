@@ -10,16 +10,24 @@
 #include "string.h"
 
 extern SPI_HandleTypeDef hspi1;
-extern CRC_HandleTypeDef hcrc;
 
-
+/*
+ * TI DACx1416 / DAC81416 SPI CRC-8-ATM (HEC), polynomial x^8+x^2+x+1 (0x07).
+ * Must match host Python driver and device; STM32 HAL CRC is not equivalent.
+ */
 uint8_t DACx1416_calculate_crc8(uint8_t *data, uint32_t length) {
-
-	// Calculate CRC
-	uint32_t crc_result = HAL_CRC_Calculate(&hcrc, (uint32_t*) data, length);
-
-	// Since we're using an 8-bit CRC, the result will be in the lower 8 bits
-	return (uint8_t) crc_result;
+	uint8_t crc = 0;
+	for (uint32_t i = 0; i < length; i++) {
+		crc ^= data[i];
+		for (int j = 0; j < 8; j++) {
+			if (crc & 0x80U) {
+				crc = (uint8_t)((crc << 1) ^ 0x07U);
+			} else {
+				crc <<= 1;
+			}
+		}
+	}
+	return crc;
 }
 
 
